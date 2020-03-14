@@ -1,36 +1,170 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #title {
+            /* display: block;
+                height: 100px; */
+            background-color: aquamarine;
+            text-align: center;
+            font-size: 30pt;
+            padding: 20px;
+        }
+
+        .status {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        div p {
+            /* background-color: cadetblue; */
+            margin-top: 20px;
+            text-align: center;
+            font-size: 24pt;
+        }
+
+        /* .choice {
+                position: relative;
+                
+            } */
+
+        .selection {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .shape {
+            margin: 10px;
+            padding: 30px;
+            border: 5px solid blueviolet;
+            width: 150px;
+            text-align: center;
+        }
+
+        .shape:hover {
+            background-color: cornflowerblue;
+            cursor: pointer;
+        }
+
+        .shape:active {
+            background-color: cyan;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            color: royalblue;
+            font-size: 30pt;
+        }
+    </style>
+</head>
+
 <body>
-    <script>
-        function computerPlay() {
-            let random_number = Math.floor(Math.random() * 3) + 1;
-            if (random_number == 1)
-                return 'rock';
-            else if (random_number == 2) return 'paper';
-            else return 'scissors';
-        }
-        function playRound(playerSelection, computerSelection) {
-            let result = 0;
-            playerSelection = playerSelection.toLowerCase();
-            switch (computerSelection) {
-                case 'rock':
-                    result = (playerSelection == 'paper') ? 1 : (playerSelection == 'rock') ? 0 : -1;
-                    break;
-                case 'paper': result = (playerSelection == 'scissors') ? 1 : (playerSelection == 'paper') ? 0 : -1;
-                    break;
-                case 'scissors': result = (playerSelection == 'rock') ? 1 : (playerSelection == 'scissors') ? 0 : -1;
-                    break;
-            }
-            if (result == -1)
-                return "You lose! Paper beats Rock";
-            else if (result == 0)
-                return "You draw";
-            else return "You win!";
-        }
-        let player = prompt("Your choice: ");
-        console.log(playRound(player, computerPlay()));
-    </script>
+    <p id="title">Rock Paper Scissors<p>
+            <div class="status">
+                <div class="player" style="color: red;">Player: <span id="score_player"></span></div>
+                <div class="computer" style="color: royalblue;">Computer: <span id="score_computer"></span></div>
+            </div>
+
+            <div class="choice">
+                <p>Make your selection</p>
+                <div class="selection">
+                    <div class="shape" id="rock">Rock</div>
+                    <div class="shape" id="paper">Paper</div>
+                    <div class="shape" id="scissors">Scissors</div>
+                </div>
+                <div id="result"></div>
+            </div>
+            <script>
+                function computerPlay() {
+                    let random_number = Math.floor(Math.random() * 3) + 1;
+                    if (random_number == 1)
+                        return 'rock';
+                    else if (random_number == 2) return 'paper';
+                    else return 'scissors';
+                }
+
+                function playRound(playerSelection, computerSelection) {
+                    let result = 0;
+                    playerSelection = playerSelection.toLowerCase();
+                    switch (computerSelection) {
+                        case 'rock':
+                            result = (playerSelection == 'paper') ? 1 : (playerSelection == 'rock') ? 0 : -1;
+                            break;
+                        case 'paper': result = (playerSelection == 'scissors') ? 1 : (playerSelection == 'paper') ? 0 : -1;
+                            break;
+                        case 'scissors': result = (playerSelection == 'rock') ? 1 : (playerSelection == 'scissors') ? 0 : -1;
+                            break;
+                    }
+                    if (result == -1)
+                        return -1;
+                    else if (result == 0)
+                        return 0;
+                    else return 1;
+                }
+
+                function game() {
+
+                    let player = 0, computer = 0, round = 0;
+                    document.getElementById("score_player").innerHTML = 0;
+                    document.getElementById("score_computer").innerHTML = 0;
+                    function count(x) {
+                        round++;
+                        if (x == 1) {
+                            document.getElementById("result").innerHTML = "You win";
+                            // alert("You win");
+                            player++;
+                            document.getElementById("score_player").innerHTML = player;
+                        } else if (x == -1) {
+                            // alert("You lose");
+                            document.getElementById("result").innerHTML = "You lose";
+                            computer++;
+                            document.getElementById("score_computer").innerHTML = computer;
+                        } else {
+                            document.getElementById("result").innerHTML = "Draw";
+                            // alert("You draw");
+                        }
+
+                        if (round == 5) {
+                            if (player > computer)
+                                alert("The final result: YOU WIN");
+                            else if (player == computer)
+                                alert("The final result: YOU DRAW");
+                            else alert("The final result: YOU LOSE");
+                            round = 0;
+                            computer = 0;
+                            player = 0;
+                            document.getElementById("score_player").innerHTML = 0;
+                            document.getElementById("score_computer").innerHTML = 0;
+                            document.getElementById("result").innerHTML = "";
+                        }
+                    }
+
+                    document.getElementById("rock").addEventListener("click", function () {
+                        let result = playRound('rock', computerPlay());
+                        count(result);
+                    });
+                    document.getElementById("paper").addEventListener("click", function () {
+                        let result = playRound('rock', computerPlay());
+                        count(result);
+                    });
+                    document.getElementById("scissors").addEventListener("click", function () {
+                        let result = playRound('rock', computerPlay());
+                        count(result);
+                    });
+                }
+
+                game();
+
+            </script>
 </body>
 
 </html>
