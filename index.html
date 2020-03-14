@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <script>
+        function computerPlay() {
+            let random_number = Math.floor(Math.random() * 3) + 1;
+            if (random_number == 1)
+                return 'rock';
+            else if (random_number == 2) return 'paper';
+            else return 'scissors';
+        }
+        function playRound(playerSelection, computerSelection) {
+            let result = 0;
+            playerSelection = playerSelection.toLowerCase();
+            switch (computerSelection) {
+                case 'rock':
+                    result = (playerSelection == 'paper') ? 1 : (playerSelection == 'rock') ? 0 : -1;
+                    break;
+                case 'paper': result = (playerSelection == 'scissors') ? 1 : (playerSelection == 'paper') ? 0 : -1;
+                    break;
+                case 'scissors': result = (playerSelection == 'rock') ? 1 : (playerSelection == 'scissors') ? 0 : -1;
+                    break;
+            }
+            if (result == -1)
+                return "You lose! Paper beats Rock";
+            else if (result == 0)
+                return "You draw";
+            else return "You win!";
+        }
+        let player = prompt("Your choice: ");
+        console.log(playRound(player, computerPlay()));
+    </script>
+</body>
+
+</html>
